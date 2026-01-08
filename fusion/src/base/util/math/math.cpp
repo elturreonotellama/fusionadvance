@@ -5,13 +5,8 @@
 float Math::wrapAngleTo180(float angle)
 {
 	angle = std::fmod(angle, 360.0f);
-	if (angle >= 180.0f) {
-		angle -= 360.0f;
-	}
-
-	if (angle < -180.0f) {
-		angle += 360.0f;
-	}
+	if (angle > 180.0f) angle -= 360.0f;
+	if (angle < -180.0f) angle += 360.0f;
 
 	return angle;
 }
@@ -61,9 +56,12 @@ Vector2 Math::getAngles(Vector3 pos, Vector3 pos1)
 	double d_y = pos1.y - pos.y;
 	double d_z = pos1.z - pos.z;
 
-	double hypothenuse = sqrt(d_x * d_x + d_z * d_z);
-	float yaw = radiantsToDeg(atan2(d_z, d_x)) - 90.f;
-	float pitch = radiantsToDeg(-atan2(d_y, hypothenuse));
+	// Usamos hypot para mayor estabilidad numérica
+	double hypothenuse = std::sqrt(d_x * d_x + d_z * d_z);
+
+	// El -90.f es correcto para el sistema de coordenadas de Minecraft (X/Z)
+	float yaw = radiantsToDeg(std::atan2(d_z, d_x)) - 90.0f;
+	float pitch = radiantsToDeg(-std::atan2(d_y, hypothenuse));
 
 	return Vector2(yaw, pitch);
 }
@@ -77,4 +75,3 @@ float Math::degToRadiants(float x)
 {
 	return x * PI / 180.f;
 }
-
