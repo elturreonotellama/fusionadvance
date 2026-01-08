@@ -247,6 +247,8 @@ void Esp::RenderMenu()
 		Menu::DoSliderStuff(34875, "Fade Distance", &Esp::FadeDistance, 0, 10);
 		Menu::DoSliderStuff(128763, "Text Size", &Esp::TextSize, 12, 24);
 
+		ImGui::ColorEdit4("Pene color", (float*)BoxColor);
+		ImGui::ColorEdit4("Pene filled color", (float*)FilledBoxColor);
 		ImGui::EndChild();
 	}
 	ImGui::PopStyleVar();
